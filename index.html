@@ -441,7 +441,8 @@
                         randomTask = otherDecks[index][idxOther[index]++];
                     }
 
-                    const pointsText = isBonus ? "Бонус, 0 т." : `${pointsConfig[index]} т.`;
+                    // Актуализиран текст за Бонус задачата
+                    const pointsText = isBonus ? "Бонус (за отличен)" : `${pointsConfig[index]} т.`;
                     const pointsClass = isBonus ? "points bonus" : "points";
 
                     const taskHtml = `
