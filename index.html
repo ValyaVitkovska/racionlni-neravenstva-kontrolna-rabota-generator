@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рационални неравенства - контролна работа</title>
-
-    <!-- KaTeX -->
+    
+    <!-- KaTeX за ултра-бързо и надеждно рендиране на формулите -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
-    <!-- html2pdf -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- html2pdf за директно сваляне на документа като PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -20,15 +20,10 @@
             --success-color: #27ae60;
             --accent-color: #c0392b;
             --bg-color: #e9ecef;
-            --line-color: #dfe6e9;
-        }
-
-        * {
-            box-sizing: border-box;
         }
 
         body {
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
             padding: 20px;
@@ -52,8 +47,10 @@
         }
 
         select, button, input[type="text"] {
-            padding: 10px 16px;
+            padding: 10px 20px;
             font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
             border: none;
             border-radius: 6px;
             transition: 0.2s;
@@ -63,37 +60,25 @@
             background-color: #f1f2f6;
             color: #2f3640;
             border: 1px solid #dcdde1;
-        }
-
-        select {
-            font-weight: 600;
-            cursor: pointer;
+            font-weight: bold;
         }
 
         input[type="text"] {
-            width: 220px;
+            cursor: text;
+            width: 200px;
+            font-weight: normal;
         }
 
         button {
             color: white;
-            font-weight: 700;
-            cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
         #btn-generate { background-color: var(--secondary-color); }
         #btn-pdf { background-color: var(--accent-color); }
 
-        button:hover {
-            filter: brightness(1.08);
-            transform: translateY(-1px);
-        }
-
-        button:disabled {
-            background: #95a5a6;
-            cursor: not-allowed;
-            transform: none;
-        }
+        button:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        button:disabled { background: #95a5a6; cursor: not-allowed; transform: none; }
 
         .paper {
             background: white;
@@ -102,17 +87,18 @@
             padding: 30px 40px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             border-radius: 5px;
+            box-sizing: border-box;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1a252f;
         }
 
         .header h1 {
-            margin: 0 0 6px 0;
+            margin: 0 0 5px 0;
             font-size: 24px;
             color: var(--primary-color);
         }
@@ -121,27 +107,14 @@
             margin: 0 0 10px 0;
             color: #555;
             font-size: 18px;
-            font-weight: 500;
+            font-weight: normal;
             font-style: italic;
         }
 
         .header p {
-            margin: 4px 0;
+            margin: 0;
             color: #555;
             font-size: 15px;
-        }
-
-        .student-line {
-            display: flex;
-            justify-content: space-between;
-            gap: 18px;
-            margin: 12px 0 18px 0;
-            font-size: 15px;
-            flex-wrap: wrap;
-        }
-
-        .student-line span {
-            min-width: 180px;
         }
 
         .short-tasks-grid {
@@ -159,7 +132,7 @@
 
         .task {
             display: block;
-            border-bottom: 1px dashed var(--line-color);
+            border-bottom: 1px dashed #ecf0f1;
             padding-bottom: 8px;
             break-inside: avoid;
             page-break-inside: avoid;
@@ -168,41 +141,27 @@
         .task-header {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
             margin-bottom: 5px;
             font-size: 15px;
         }
 
-        .task-title {
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .points {
-            font-weight: 700;
-            color: var(--accent-color);
-            font-size: 0.95em;
-            white-space: nowrap;
-        }
-
-        .points.bonus {
-            color: var(--success-color);
-        }
+        .task-title { font-weight: bold; color: var(--primary-color); }
+        
+        .points { font-weight: bold; color: var(--accent-color); font-size: 0.9em; }
+        .points.bonus { color: var(--success-color); }
 
         .math-content {
             text-align: center;
-            font-size: 1.12em;
+            font-size: 1.15em;
             margin: 5px 0;
             min-height: 35px;
             break-inside: avoid;
             page-break-inside: avoid;
-            overflow-x: auto;
-            overflow-y: hidden;
         }
 
         .answers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
@@ -212,8 +171,6 @@
             border: 1px solid #dcdde1;
             padding: 15px;
             border-radius: 6px;
-            break-inside: avoid;
-            page-break-inside: avoid;
         }
 
         .variant-answers h3 {
@@ -221,132 +178,146 @@
             color: var(--primary-color);
             text-align: center;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 6px;
+            padding-bottom: 5px;
         }
 
         .variant-answers ol {
             margin: 0;
-            padding-left: 22px;
+            padding-left: 20px;
             font-size: 0.95em;
         }
 
         .variant-answers li {
             margin-bottom: 8px;
-            padding-left: 4px;
+            padding-left: 5px;
         }
 
         .page-break {
             page-break-before: always;
-            break-before: page;
             margin-top: 40px;
             border-top: 2px dashed #bdc3c7;
             padding-top: 20px;
         }
 
-        .loading-text {
-            text-align: center;
-            color: #666;
-        }
-
-        @media (max-width: 760px) {
-            .paper {
-                padding: 22px 18px;
-            }
-
-            .short-tasks-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .student-line {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-
         @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .controls {
-                display: none;
-            }
-
-            .paper {
-                box-shadow: none;
-                border: none;
-                padding: 0;
-                max-width: 100%;
-                border-radius: 0;
-            }
-
-            .task,
-            .variant-answers,
-            .math-content {
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-
-            .page-break {
-                border-top: none;
-                margin-top: 0;
-                padding-top: 0;
-            }
+            body { background: white; padding: 0; }
+            .controls { display: none; }
+            .paper { box-shadow: none; border: none; padding: 0; max-width: 100%; border-radius: 0; }
+            .task { page-break-inside: avoid; }
+            .page-break { border: none; margin-top: 0; padding-top: 0; }
         }
     </style>
 </head>
 <body>
 
     <div class="controls">
-        <label for="subtitle-input" style="font-weight:700;">Подзаглавие:</label>
+        <label for="subtitle-input" style="font-weight: bold; margin-right: 5px;">Подзаглавие:</label>
         <input type="text" id="subtitle-input" value="контролна работа" placeholder="напр. тест, класно...">
 
-        <label for="variant-count" style="font-weight:700;">Брой варианти:</label>
+        <label for="variant-count" style="font-weight: bold; margin-left: 10px; margin-right: 5px;">Брой варианти:</label>
         <select id="variant-count">
-            <option value="1">1 вариант</option>
-            <option value="2" selected>2 варианта</option>
-            <option value="4">4 варианта</option>
-            <option value="6">6 варианта</option>
+            <option value="1">1 Вариант</option>
+            <option value="2" selected>2 Варианта</option>
+            <option value="4">4 Варианта</option>
+            <option value="6">6 Варианта</option>
         </select>
-
-        <label style="font-weight:700; display:flex; align-items:center; cursor:pointer; color:var(--primary-color);">
-            <input type="checkbox" id="include-bonus" checked style="margin-right:6px; width:18px; height:18px; cursor:pointer;">
-            Включи задача 10
+        
+        <label style="font-weight: bold; margin-left: 10px; margin-right: 10px; display: flex; align-items: center; cursor: pointer; color: var(--primary-color);">
+            <input type="checkbox" id="include-bonus" checked style="margin-right: 5px; width: 18px; height: 18px; cursor: pointer;">
+            Включи Зад. 10
         </label>
 
-        <button id="btn-generate">🔄 Генерирай</button>
-        <button id="btn-pdf">📄 Изтегли като PDF</button>
+        <button id="btn-generate" onclick="generateTest()">🔄 Генерирай</button>
+        <button id="btn-pdf" onclick="downloadPDF()">📄 Изтегли като PDF</button>
     </div>
 
+    <!-- Този контейнер ще бъде запазен като PDF -->
     <div id="paper-content" class="paper">
         <div id="test-container">
-            <p class="loading-text">Зареждане...</p>
+            <p style="text-align: center; color: #666;">Зареждане...</p>
         </div>
     </div>
 
     <script>
-        const pointsConfig = [3, 3, 4, 4, 4, 4, 5, 7, 6, 0];
+        // Функция за разбъркване на масив (тесте с карти)
+        function shuffleArray(array) {
+            let curId = array.length;
+            while (0 !== curId) {
+                let randId = Math.floor(Math.random() * curId);
+                curId -= 1;
+                let tmp = array[curId];
+                array[curId] = array[randId];
+                array[randId] = tmp;
+            }
+            return array;
+        }
 
+        // Помощни функции за динамично генериране на квадратните неравенства
+        function flipOp(op) {
+            if (op === "\\le 0") return "\\ge 0";
+            if (op === "\\ge 0") return "\\le 0";
+            if (op === "< 0") return "> 0";
+            if (op === "> 0") return "< 0";
+            return op;
+        }
+
+        function formatTerm(c, p, isFirst) {
+            if (c === 0) return "";
+            let sign = "";
+            if (c < 0) {
+                sign = isFirst ? "-" : " - ";
+            } else if (!isFirst) {
+                sign = " + ";
+            }
+
+            let absC = Math.abs(c);
+            let numStr = (absC === 1 && p > 0) ? "" : absC.toString();
+            let varStr = p === 2 ? "x^2" : (p === 1 ? "x" : "");
+
+            return sign + numStr + varStr;
+        }
+
+        function buildQuadratic(a, b, c, op, isNegative, isUnordered) {
+            let curA = isNegative ? -a : a;
+            let curB = isNegative ? -b : b;
+            let curC = isNegative ? -c : c;
+            let curOp = isNegative ? flipOp(op) : op;
+
+            let terms = [{c: curA, p: 2}, {c: curB, p: 1}, {c: curC, p: 0}];
+            if (isUnordered) terms = terms.reverse();
+
+            let qStr = "";
+            let isFirst = true;
+            for (let t of terms) {
+                if (t.c !== 0) {
+                    qStr += formatTerm(t.c, t.p, isFirst);
+                    isFirst = false;
+                }
+            }
+            return qStr + " " + curOp;
+        }
+
+        // Пул 1: Задачи с краен интервал или всяко x (Базови стойности)
         const quadPool1 = [
             { a: 1, b: -7, c: 10, op: "\\le 0", ans: "x \\in [2; 5]" },
             { a: 1, b: -3, c: -4, op: "\\le 0", ans: "x \\in [-1; 4]" },
-            { a: 1, b: -2, c: 8, op: "> 0", ans: "x \\in (-\\infty; \\infty)" },
-            { a: 2, b: -4, c: 5, op: "> 0", ans: "x \\in (-\\infty; \\infty)" },
+            { a: 1, b: -2, c: 8, op: "> 0", ans: "x \\in (-\\infty; \\infty) \\text{ (всяко } x \\text{)}" },
+            { a: 2, b: -4, c: 5, op: "> 0", ans: "x \\in (-\\infty; \\infty) \\text{ (всяко } x \\text{)}" },
             { a: 1, b: 5, c: 6, op: "\\le 0", ans: "x \\in [-3; -2]" }
         ];
 
+        // Пул 2: Задачи с обединение от безкрайни интервали или няма решение (Базови стойности)
         const quadPool2 = [
             { a: 1, b: -8, c: 15, op: "> 0", ans: "x \\in (-\\infty; 3) \\cup (5; \\infty)" },
             { a: 2, b: -5, c: -3, op: "> 0", ans: "x \\in \\left(-\\infty; -\\frac{1}{2}\\right) \\cup (3; \\infty)" },
-            { a: 1, b: -3, c: 10, op: "< 0", ans: "x \\in \\emptyset" },
-            { a: 1, b: -2, c: 6, op: "\\le 0", ans: "x \\in \\emptyset" },
+            { a: 1, b: -3, c: 10, op: "< 0", ans: "x \\in \\emptyset \\text{ (няма решение)}" },
+            { a: 1, b: -2, c: 6, op: "\\le 0", ans: "x \\in \\emptyset \\text{ (няма решение)}" },
             { a: 1, b: -2, c: -8, op: "\\ge 0", ans: "x \\in (-\\infty; -2] \\cup [4; \\infty)" }
         ];
 
         const pools = [
-            [],
-            [],
+            [], // Зад. 1 - генерира се динамично
+            [], // Зад. 2 - генерира се динамично
             [
                 { q: "(x - 3)(2x + 5)^2(4 - x) \\ge 0", a: "x \\in [3; 4] \\cup \\{-2.5\\}" },
                 { q: "(x - 1)(3x - 2)^2(5 - x) \\ge 0", a: "x \\in [1; 5] \\cup \\left\\{\\frac{2}{3}\\right\\}" },
@@ -401,147 +372,45 @@
             ]
         ];
 
-        function shuffleArray(array) {
-            const arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
-
-        function flipOp(op) {
-            if (op === "\\le 0") return "\\ge 0";
-            if (op === "\\ge 0") return "\\le 0";
-            if (op === "< 0") return "> 0";
-            if (op === "> 0") return "< 0";
-            return op;
-        }
-
-        function formatTerm(c, p, isFirst) {
-            if (c === 0) return "";
-
-            let sign = "";
-            if (c < 0) {
-                sign = isFirst ? "-" : " - ";
-            } else if (!isFirst) {
-                sign = " + ";
-            }
-
-            const absC = Math.abs(c);
-            const numStr = (absC === 1 && p > 0) ? "" : absC.toString();
-            const varStr = p === 2 ? "x^2" : (p === 1 ? "x" : "");
-
-            return sign + numStr + varStr;
-        }
-
-        function buildQuadratic(a, b, c, op, isNegative, isUnordered) {
-            let curA = isNegative ? -a : a;
-            let curB = isNegative ? -b : b;
-            let curC = isNegative ? -c : c;
-            let curOp = isNegative ? flipOp(op) : op;
-
-            let terms = [
-                { c: curA, p: 2 },
-                { c: curB, p: 1 },
-                { c: curC, p: 0 }
-            ];
-
-            if (isUnordered) {
-                terms = terms.reverse();
-            }
-
-            let qStr = "";
-            let isFirst = true;
-
-            for (const t of terms) {
-                if (t.c !== 0) {
-                    qStr += formatTerm(t.c, t.p, isFirst);
-                    isFirst = false;
-                }
-            }
-
-            return `${qStr} ${curOp}`;
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/[&<>"']/g, function(char) {
-                const map = {
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    '"': "&quot;",
-                    "'": "&#39;"
-                };
-                return map[char];
-            });
-        }
-
-        function getPdfFileName() {
-            const subtitle = document.getElementById("subtitle-input").value.trim();
-            const cleanSubtitle = subtitle
-                ? subtitle.replace(/[^\p{L}\p{N}\s-]/gu, "").trim().replace(/\s+/g, "_")
-                : "kontrolna_rabota";
-
-            return `Racionalni_neravenstva_${cleanSubtitle}.pdf`;
-        }
-
-        function renderMath(container) {
-            if (typeof renderMathInElement !== "function") return;
-
-            renderMathInElement(container, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false }
-                ],
-                throwOnError: false,
-                strict: false
-            });
-        }
+        const pointsConfig = [3, 3, 4, 4, 4, 4, 5, 7, 6, 0];
 
         function generateTest() {
-            const numVariants = parseInt(document.getElementById("variant-count").value, 10);
-            const customSubtitle = document.getElementById("subtitle-input").value.trim();
-            const includeBonus = document.getElementById("include-bonus").checked;
-            const container = document.getElementById("test-container");
-
-            let htmlContent = "";
+            const numVariants = parseInt(document.getElementById('variant-count').value);
+            const customSubtitle = document.getElementById('subtitle-input').value.trim();
+            const includeBonus = document.getElementById('include-bonus').checked;
+            const container = document.getElementById('test-container');
+            
+            let htmlContent = '';
+            
             let answersHtml = `
                 <div class="page-break"></div>
                 <div class="header">
                     <h1>Ключ с верни отговори</h1>
-                    <p>Рационални неравенства</p>
                 </div>
                 <div class="answers-grid">
             `;
 
-            let quadDeck1 = shuffleArray(quadPool1);
-            let quadDeck2 = shuffleArray(quadPool2);
-            let otherDecks = pools.map(pool => shuffleArray(pool));
+            // Създаваме "тестета" (разбъркани масиви), за да не се повтарят задачите!
+            let quadDeck1 = shuffleArray([...quadPool1]);
+            let quadDeck2 = shuffleArray([...quadPool2]);
+            let otherDecks = pools.map(pool => shuffleArray([...pool]));
 
+            // Броячи, които следят до коя "карта" сме стигнали във всяко тесте
             let idxQuad1 = 0;
             let idxQuad2 = 0;
             let idxOther = new Array(pools.length).fill(0);
 
             for (let v = 1; v <= numVariants; v++) {
-                const safeSubtitle = customSubtitle ? escapeHtml(customSubtitle) : "";
-                const subtitleHtml = safeSubtitle ? `<h2 class="subtitle">${safeSubtitle}</h2>` : "";
-
+                const subtitleHtml = customSubtitle ? `<h2 class="subtitle">${customSubtitle}</h2>` : '';
                 htmlContent += `
                     <div class="header">
                         <h1>Рационални неравенства</h1>
                         ${subtitleHtml}
-                        <p><strong>Вариант ${v}</strong> | Максимален брой точки: <strong>40</strong> | Време: <strong>40 минути</strong></p>
-                    </div>
-
-                    <div class="student-line">
-                        <span><strong>Име:</strong> ____________________</span>
-                        <span><strong>Клас:</strong> __________</span>
-                        <span><strong>Дата:</strong> __________</span>
+                        <p><strong>Вариант ${v}</strong> | Максимален брой точки: <strong>40</strong></p>
                     </div>
                 `;
-
-                htmlContent += `<div class="short-tasks-grid">`;
+                
+                htmlContent += '<div class="short-tasks-grid">';
                 answersHtml += `<div class="variant-answers"><h3>Вариант ${v}</h3><ol>`;
 
                 const t1Neg = Math.random() > 0.5;
@@ -549,41 +418,30 @@
                 const t2Neg = !t1Neg;
                 const t2Unord = !t1Unord;
 
-                const activePoolsCount = includeBonus ? 10 : 9;
+                const activePoolsCount = includeBonus ? pools.length : 9;
 
                 for (let index = 0; index < activePoolsCount; index++) {
                     const isBonus = index === 9;
                     let randomTask;
 
                     if (index === 0) {
-                        if (idxQuad1 >= quadDeck1.length) {
-                            quadDeck1 = shuffleArray(quadPool1);
-                            idxQuad1 = 0;
-                        }
+                        // Ако сме изчерпали тестето, го разбъркваме отново
+                        if (idxQuad1 >= quadDeck1.length) { quadDeck1 = shuffleArray([...quadPool1]); idxQuad1 = 0; }
                         const pick = quadDeck1[idxQuad1++];
-                        randomTask = {
-                            q: buildQuadratic(pick.a, pick.b, pick.c, pick.op, t1Neg, t1Unord),
-                            a: pick.ans
-                        };
+                        randomTask = { q: buildQuadratic(pick.a, pick.b, pick.c, pick.op, t1Neg, t1Unord), a: pick.ans };
                     } else if (index === 1) {
-                        if (idxQuad2 >= quadDeck2.length) {
-                            quadDeck2 = shuffleArray(quadPool2);
-                            idxQuad2 = 0;
-                        }
+                        if (idxQuad2 >= quadDeck2.length) { quadDeck2 = shuffleArray([...quadPool2]); idxQuad2 = 0; }
                         const pick = quadDeck2[idxQuad2++];
-                        randomTask = {
-                            q: buildQuadratic(pick.a, pick.b, pick.c, pick.op, t2Neg, t2Unord),
-                            a: pick.ans
-                        };
+                        randomTask = { q: buildQuadratic(pick.a, pick.b, pick.c, pick.op, t2Neg, t2Unord), a: pick.ans };
                     } else {
                         if (idxOther[index] >= otherDecks[index].length) {
-                            otherDecks[index] = shuffleArray(pools[index]);
+                            otherDecks[index] = shuffleArray([...pools[index]]);
                             idxOther[index] = 0;
                         }
                         randomTask = otherDecks[index][idxOther[index]++];
                     }
 
-                    const pointsText = isBonus ? "Бонус" : `${pointsConfig[index]} т.`;
+                    const pointsText = isBonus ? "Бонус, 0 т." : `${pointsConfig[index]} т.`;
                     const pointsClass = isBonus ? "points bonus" : "points";
 
                     const taskHtml = `
@@ -592,18 +450,18 @@
                                 <span class="task-title">Задача ${index + 1}.</span>
                                 <span class="${pointsClass}">${pointsText}</span>
                             </div>
-                            <div class="math-content">$$ ${randomTask.q} $$</div>
+                            <div class="math-content">
+                                $$ ${randomTask.q} $$
+                            </div>
                         </div>
                     `;
 
                     if (index < 4) {
                         htmlContent += taskHtml;
                     }
-
                     if (index === 3) {
-                        htmlContent += `</div><div class="long-tasks-list">`;
+                        htmlContent += '</div><div class="long-tasks-list">';
                     }
-
                     if (index >= 4) {
                         htmlContent += taskHtml;
                     }
@@ -611,61 +469,56 @@
                     answersHtml += `<li>$ ${randomTask.a} $</li>`;
                 }
 
-                htmlContent += `</div>`;
-                answersHtml += `</ol></div>`;
+                htmlContent += '</div>';
+                answersHtml += '</ol></div>';
 
-                if (v < numVariants) {
-                    htmlContent += `<div class="page-break"></div>`;
-                }
+                htmlContent += '<div class="page-break"></div>';
             }
 
-            answersHtml += `</div>`;
+            answersHtml += '</div>';
             container.innerHTML = htmlContent + answersHtml;
-            renderMath(container);
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(container, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
         }
 
         function downloadPDF() {
-            const element = document.getElementById("paper-content");
-            const btn = document.getElementById("btn-pdf");
-            const oldText = btn.innerHTML;
-
+            const element = document.getElementById('paper-content');
+            
             const opt = {
-                margin: 10,
-                filename: getPdfFileName(),
-                image: { type: "jpeg", quality: 1 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-                pagebreak: {
-                    mode: ["css", "legacy"],
-                    avoid: [".task", ".variant-answers", ".math-content"],
-                    before: ".page-break"
-                }
+                margin:       10, 
+                filename:     'Kontrolna_Neravenstva.pdf',
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2 }, 
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['css', 'legacy'], avoid: '.task', before: '.page-break' } 
             };
-
-            btn.innerHTML = "⏳ Подготвяне на PDF...";
+            
+            const btn = document.getElementById('btn-pdf');
+            const oldText = btn.innerHTML;
+            btn.innerHTML = '⏳ Подготвяне на PDF...';
             btn.disabled = true;
 
-            html2pdf().set(opt).from(element).save()
-                .then(() => {
-                    btn.innerHTML = oldText;
-                    btn.disabled = false;
-                })
-                .catch((err) => {
-                    console.error("Грешка при създаване на PDF:", err);
-                    btn.innerHTML = "❌ Възникна грешка";
-                    setTimeout(() => {
-                        btn.innerHTML = oldText;
-                        btn.disabled = false;
-                    }, 2000);
-                });
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = oldText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error("Грешка при създаване на PDF:", err);
+                btn.innerHTML = '❌ Възникна грешка';
+                setTimeout(() => { btn.innerHTML = oldText; btn.disabled = false; }, 2000);
+            });
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("btn-generate").addEventListener("click", generateTest);
-            document.getElementById("btn-pdf").addEventListener("click", downloadPDF);
-
+        window.onload = function() {
             setTimeout(generateTest, 300);
-        });
+        };
     </script>
 </body>
 </html>
