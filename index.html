@@ -224,7 +224,7 @@
         
         <label style="font-weight: bold; margin-left: 10px; margin-right: 10px; display: flex; align-items: center; cursor: pointer; color: var(--primary-color);">
             <input type="checkbox" id="include-bonus" checked style="margin-right: 5px; width: 18px; height: 18px; cursor: pointer;">
-            Включи Зад. 10
+            Включи Бонус
         </label>
 
         <button id="btn-generate" onclick="generateTest()">🔄 Генерирай</button>
@@ -297,83 +297,80 @@
             return qStr + " " + curOp;
         }
 
-        // Пул 1: Задачи с краен интервал или всяко x (Базови стойности)
+        // Пул за системи линейни неравенства (Задача 1)
+        const systemPool = [
+            { q: "\\left| \\begin{array}{l} 3x + 5 > -4 \\\\ 2x - 5 > 7 \\end{array} \\right.", a: "x \\in (6; \\infty)" },
+            { q: "\\left| \\begin{array}{l} 5x - 4 < 1 \\\\ 4x + 8 \\le 6 \\end{array} \\right.", a: "x \\in (-\\infty; -0.5]" },
+            { q: "\\left| \\begin{array}{l} -2x + 5 \\le 3 \\\\ 3x + 16 < 7 \\end{array} \\right.", a: "\\emptyset" },
+            { q: "\\left| \\begin{array}{l} 4x - 7 \\ge 1 \\\\ 5 - x > 2 \\end{array} \\right.", a: "x \\in [2; 3)" },
+            { q: "\\left| \\begin{array}{l} 2x + 1 > 5 \\\\ 3x - 2 \\le 13 \\end{array} \\right.", a: "x \\in (2; 5]" },
+            { q: "\\left| \\begin{array}{l} 3x - 1 \\le 8 \\\\ 4 - 2x < 10 \\end{array} \\right.", a: "x \\in (-3; 3]" }
+        ];
+
+        // Базови квадратни неравенства (Задача 2 и 3)
         const quadPool1 = [
             { a: 1, b: -7, c: 10, op: "\\le 0", ans: "x \\in [2; 5]" },
             { a: 1, b: -3, c: -4, op: "\\le 0", ans: "x \\in [-1; 4]" },
-            { a: 1, b: -2, c: 8, op: "> 0", ans: "x \\in (-\\infty; \\infty) \\text{ (всяко } x \\text{)}" },
-            { a: 2, b: -4, c: 5, op: "> 0", ans: "x \\in (-\\infty; \\infty) \\text{ (всяко } x \\text{)}" },
+            { a: 1, b: -2, c: 8, op: "> 0", ans: "x \\in (-\\infty; \\infty)" },
+            { a: 2, b: -4, c: 5, op: "> 0", ans: "x \\in (-\\infty; \\infty)" },
             { a: 1, b: 5, c: 6, op: "\\le 0", ans: "x \\in [-3; -2]" }
         ];
 
-        // Пул 2: Задачи с обединение от безкрайни интервали или няма решение (Базови стойности)
         const quadPool2 = [
             { a: 1, b: -8, c: 15, op: "> 0", ans: "x \\in (-\\infty; 3) \\cup (5; \\infty)" },
-            { a: 2, b: -5, c: -3, op: "> 0", ans: "x \\in \\left(-\\infty; -\\frac{1}{2}\\right) \\cup (3; \\infty)" },
-            { a: 1, b: -3, c: 10, op: "< 0", ans: "x \\in \\emptyset \\text{ (няма решение)}" },
-            { a: 1, b: -2, c: 6, op: "\\le 0", ans: "x \\in \\emptyset \\text{ (няма решение)}" },
+            { a: 2, b: -5, c: -3, op: "> 0", ans: "x \\in (-\\infty; -0.5) \\cup (3; \\infty)" },
+            { a: 1, b: -3, c: 10, op: "< 0", ans: "\\emptyset" },
+            { a: 1, b: -2, c: 6, op: "\\le 0", ans: "\\emptyset" },
             { a: 1, b: -2, c: -8, op: "\\ge 0", ans: "x \\in (-\\infty; -2] \\cup [4; \\infty)" }
         ];
 
         const pools = [
-            [], // Зад. 1 - генерира се динамично
-            [], // Зад. 2 - генерира се динамично
-            [
+            systemPool, // Зад. 1
+            [],         // Зад. 2 (Динамична)
+            [],         // Зад. 3 (Динамична)
+            [           // Зад. 4 - Произведение
                 { q: "(x - 3)(2x + 5)^2(4 - x) \\ge 0", a: "x \\in [3; 4] \\cup \\{-2.5\\}" },
-                { q: "(x - 1)(3x - 2)^2(5 - x) \\ge 0", a: "x \\in [1; 5] \\cup \\left\\{\\frac{2}{3}\\right\\}" },
-                { q: "(x - 2)(x + 4)^2(6 - x) \\ge 0", a: "x \\in [2; 6] \\cup \\{-4\\}" },
-                { q: "(x + 1)(2x - 7)^2(3 - x) \\ge 0", a: "x \\in [-1; 3] \\cup \\{3.5\\}" }
+                { q: "(x - 1)(3x - 2)^2(5 - x) \\ge 0", a: "x \\in [1; 5] \\cup \\{2/3\\}" },
+                { q: "(x - 2)(x + 4)^2(6 - x) \\ge 0", a: "x \\in [2; 6] \\cup \\{-4\\}" }
             ],
-            [
+            [           // Зад. 5 - Биквадратни
                 { q: "x^4 - 13x^2 + 36 < 0", a: "x \\in (-3; -2) \\cup (2; 3)" },
                 { q: "x^4 - 10x^2 + 9 < 0", a: "x \\in (-3; -1) \\cup (1; 3)" },
-                { q: "x^4 - 20x^2 + 64 < 0", a: "x \\in (-4; -2) \\cup (2; 4)" },
-                { q: "x^4 - 25x^2 + 144 < 0", a: "x \\in (-4; -3) \\cup (3; 4)" }
+                { q: "x^4 - 20x^2 + 64 < 0", a: "x \\in (-4; -2) \\cup (2; 4)" }
             ],
-            [
-                { q: "\\frac{3x - 1}{2 - x} \\ge 1", a: "x \\in \\left[\\frac{3}{4}; 2\\right)" },
+            [           // Зад. 6 - Дробни прости
+                { q: "\\frac{3x - 1}{2 - x} \\ge 1", a: "x \\in [3/4; 2)" },
                 { q: "\\frac{4x - 3}{3 - x} \\ge 1", a: "x \\in [1.2; 3)" },
-                { q: "\\frac{5x - 2}{4 - x} \\ge 1", a: "x \\in [1; 4)" },
                 { q: "\\frac{3x - 2}{x + 4} \\ge 1", a: "x \\in (-\\infty; -4) \\cup [3; \\infty)" }
             ],
-            [
+            [           // Зад. 7 - Дробни с разлагане
                 { q: "\\frac{x^2 - 5x}{x + 2} \\le 0", a: "x \\in (-\\infty; -2) \\cup [0; 5]" },
                 { q: "\\frac{x^2 - 16}{x - 1} \\ge 0", a: "x \\in [-4; 1) \\cup [4; \\infty)" },
-                { q: "\\frac{2x - 3}{x^2 + 4x} \\le 0", a: "x \\in (-\\infty; -4) \\cup (0; 1.5]" },
-                { q: "\\frac{x + 3}{x^2 - 4} \\ge 0", a: "x \\in [-3; -2) \\cup (2; \\infty)" },
-                { q: "\\frac{3x - x^2}{x + 1} \\ge 0", a: "x \\in (-\\infty; -1) \\cup [0; 3]" },
-                { q: "\\frac{4x^2 - 1}{x - 3} \\le 0", a: "x \\in (-\\infty; -0.5] \\cup [0.5; 3)" }
+                { q: "\\frac{2x - 3}{x^2 + 4x} \\le 0", a: "x \\in (-\\infty; -4) \\cup (0; 1.5]" }
             ],
-            [
+            [           // Зад. 8 - Степени и повтарящи се корени
                 { q: "\\frac{(x^2 - 4)(x + 1)^3}{x^2 - 2x + 1} \\le 0", a: "x \\in (-\\infty; -2] \\cup [-1; 1) \\cup (1; 2]" },
                 { q: "\\frac{(x^2 - 4)(x - 1)}{x^2 - 3x + 2} \\ge 0", a: "x \\in [-2; 1) \\cup (1; 2) \\cup (2; \\infty)" },
-                { q: "\\frac{x^2 - 9}{x^2 - 3x} \\ge 0", a: "x \\in (-\\infty; -3] \\cup (0; 3) \\cup (3; \\infty)" },
-                { q: "\\frac{(x^2 - 6x + 9)(x + 2)}{x - 1} \\le 0", a: "x \\in [-2; 1) \\cup \\{3\\}" },
-                { q: "\\frac{x^2 - x - 12}{x^2 - 4} \\le 0", a: "x \\in [-3; -2) \\cup (2; 4]" },
-                { q: "\\frac{x^2 - 25}{(x + 1)(x^2 - 10x + 25)} \\le 0", a: "x \\in (-\\infty; -5] \\cup (-1; 5)" }
+                { q: "\\frac{(x^2 - 6x + 9)(x + 2)}{x - 1} \\le 0", a: "x \\in [-2; 1) \\cup \\{3\\}" }
             ],
-            [
+            [           // Зад. 9 - Анализ на знаци и дискриминанта
+                { q: "\\frac{-3x^2 + 10x - 8}{(x + 3)^4(x^2 - x + 3)} \\ge 0", a: "x \\in [4/3; 2]" },
+                { q: "\\frac{-2x^2 + 9x - 4}{(x + 2)^4(x^2 + 2x + 5)} \\ge 0", a: "x \\in [0.5; 4]" },
+                { q: "\\frac{-x^2 + 6x - 5}{(x - 2)^4(x^2 - 3x + 7)} \\ge 0", a: "x \\in [1; 2) \\cup (2; 5]" }
+            ],
+            [           // Зад. 10 - Общ знаменател (най-дългата)
                 { q: "\\frac{3x^2 - 10x - 1}{x^2 - 3x + 2} < -2", a: "x \\in (0.2; 1) \\cup (2; 3)" },
                 { q: "\\frac{3x^2 - 5x + 1}{x^2 - x - 2} \\le 2", a: "x \\in (-1; 2)" },
-                { q: "\\frac{3x^2 - 7x + 2}{x^2 - x - 2} \\le 2", a: "x \\in (-1; 2) \\cup (2; 3]" },
-                { q: "\\frac{x^2 - 5x + 3}{x^2 - 1} < -1", a: "x \\in (-1; 0.5) \\cup (1; 2)" },
                 { q: "\\frac{4x^2 - 10x + 7}{x^2 - 3x + 2} \\ge 3", a: "x \\in (-\\infty; 1) \\cup (2; \\infty)" }
             ],
-            [
-                { q: "\\frac{-3x^2 + 10x - 8}{(x + 3)^4(x^2 - x + 3)} \\ge 0", a: "x \\in \\left[\\frac{4}{3}; 2\\right]" },
-                { q: "\\frac{-2x^2 + 9x - 4}{(x + 2)^4(x^2 + 2x + 5)} \\ge 0", a: "x \\in \\left[\\frac{1}{2}; 4\\right]" },
-                { q: "\\frac{-x^2 + 6x - 5}{(x - 2)^4(x^2 - 3x + 7)} \\ge 0", a: "x \\in [1; 2) \\cup (2; 5]" },
-                { q: "\\frac{-4x^2 + 12x - 5}{(x - 1)^4(x^2 + x + 2)} \\ge 0", a: "x \\in \\left[\\frac{1}{2}; 1\\right) \\cup (1; 2.5]" }
-            ],
-            [
+            [           // Зад. 11 - Бонус (Полагане)
                 { q: "\\left(\\frac{x+2}{x-1}\\right)^2 - 5\\left(\\frac{x+2}{x-1}\\right) + 6 \\le 0", a: "x \\in [2.5; 4]" },
-                { q: "\\left(\\frac{x+1}{x-2}\\right)^2 - 4\\left(\\frac{x+1}{x-2}\\right) + 3 > 0", a: "x \\in (-\\infty; 2) \\cup (2; 3.5)" },
-                { q: "\\left(\\frac{x-1}{x+2}\\right)^2 - 6\\left(\\frac{x-1}{x+2}\\right) + 8 < 0", a: "x \\in (-5; -3)" },
-                { q: "\\left(\\frac{2x+1}{x-1}\\right)^2 - 5\\left(\\frac{2x+1}{x-1}\\right) + 4 \\ge 0", a: "x \\in [-2; 1) \\cup (1; 2.5]" }
+                { q: "\\left(\\frac{x+1}{x-2}\\right)^2 - 4\\left(\\frac{x+1}{x-2}\\right) + 3 > 0", a: "x \\in (-\\infty; 2) \\cup (2; 3.5)" }
             ]
         ];
 
-        const pointsConfig = [3, 3, 4, 4, 4, 4, 5, 7, 6, 0];
+        // Точкуване: 3, 3, 3, 4, 4, 4, 4, 4(Зад.8), 5(Зад.9), 6(Зад.10), 0(Бонус)
+        const pointsConfig = [3, 3, 3, 4, 4, 4, 4, 4, 5, 6, 0];
 
         function generateTest() {
             const numVariants = parseInt(document.getElementById('variant-count').value);
@@ -382,24 +379,19 @@
             const container = document.getElementById('test-container');
             
             let htmlContent = '';
-            
             let answersHtml = `
                 <div class="page-break"></div>
-                <div class="header">
-                    <h1>Ключ с верни отговори</h1>
-                </div>
+                <div class="header"><h1>Ключ с верни отговори</h1></div>
                 <div class="answers-grid">
             `;
 
-            // Създаваме "тестета" (разбъркани масиви), за да не се повтарят задачите!
-            let quadDeck1 = shuffleArray([...quadPool1]);
-            let quadDeck2 = shuffleArray([...quadPool2]);
-            let otherDecks = pools.map(pool => shuffleArray([...pool]));
-
-            // Броячи, които следят до коя "карта" сме стигнали във всяко тесте
-            let idxQuad1 = 0;
-            let idxQuad2 = 0;
-            let idxOther = new Array(pools.length).fill(0);
+            // Подготовка на тестета за всяка задача
+            let decks = pools.map(pool => pool.length > 0 ? shuffleArray([...pool]) : []);
+            let quad1Deck = shuffleArray([...quadPool1]);
+            let quad2Deck = shuffleArray([...quadPool2]);
+            
+            let deckIndices = new Array(pools.length).fill(0);
+            let q1Idx = 0, q2Idx = 0;
 
             for (let v = 1; v <= numVariants; v++) {
                 const subtitleHtml = customSubtitle ? `<h2 class="subtitle">${customSubtitle}</h2>` : '';
@@ -414,112 +406,77 @@
                 htmlContent += '<div class="short-tasks-grid">';
                 answersHtml += `<div class="variant-answers"><h3>Вариант ${v}</h3><ol>`;
 
-                const t1Neg = Math.random() > 0.5;
-                const t1Unord = Math.random() > 0.5;
-                const t2Neg = !t1Neg;
-                const t2Unord = !t1Unord;
+                const activeCount = includeBonus ? pools.length : pools.length - 1;
 
-                const activePoolsCount = includeBonus ? pools.length : 9;
-
-                for (let index = 0; index < activePoolsCount; index++) {
-                    const isBonus = index === 9;
-                    let randomTask;
-
-                    if (index === 0) {
-                        if (idxQuad1 >= quadDeck1.length) { quadDeck1 = shuffleArray([...quadPool1]); idxQuad1 = 0; }
-                        const pick = quadDeck1[idxQuad1++];
-                        randomTask = { q: buildQuadratic(pick.a, pick.b, pick.c, pick.op, t1Neg, t1Unord), a: pick.ans };
-                    } else if (index === 1) {
-                        if (idxQuad2 >= quadDeck2.length) { quadDeck2 = shuffleArray([...quadPool2]); idxQuad2 = 0; }
-                        const pick = quadDeck2[idxQuad2++];
-                        randomTask = { q: buildQuadratic(pick.a, pick.b, pick.c, pick.op, t2Neg, t2Unord), a: pick.ans };
-                    } else {
-                        if (idxOther[index] >= otherDecks[index].length) {
-                            otherDecks[index] = shuffleArray([...pools[index]]);
-                            idxOther[index] = 0;
+                for (let i = 0; i < activeCount; i++) {
+                    let task;
+                    
+                    if (i === 1 || i === 2) { // Динамични квадратни задачи
+                        const isNeg = (i === 1) ? Math.random() > 0.5 : !(v % 2 === 0);
+                        const isUnordered = (i === 1) ? Math.random() > 0.5 : (v % 2 !== 0);
+                        
+                        if (i === 1) {
+                            if (q1Idx >= quad1Deck.length) { quad1Deck = shuffleArray([...quadPool1]); q1Idx = 0; }
+                            const p = quad1Deck[q1Idx++];
+                            task = { q: buildQuadratic(p.a, p.b, p.c, p.op, isNeg, isUnordered), a: p.ans };
+                        } else {
+                            if (q2Idx >= quad2Deck.length) { quad2Deck = shuffleArray([...quadPool2]); q2Idx = 0; }
+                            const p = quad2Deck[q2Idx++];
+                            task = { q: buildQuadratic(p.a, p.b, p.c, p.op, !isNeg, !isUnordered), a: p.ans };
                         }
-                        randomTask = otherDecks[index][idxOther[index]++];
+                    } else {
+                        if (deckIndices[i] >= decks[i].length) { decks[i] = shuffleArray([...pools[i]]); deckIndices[i] = 0; }
+                        task = decks[i][deckIndices[i]++];
                     }
 
-                    // Актуализиран текст за Бонус задачата
-                    const pointsText = isBonus ? "Бонус (за отличен)" : `${pointsConfig[index]} т.`;
-                    const pointsClass = isBonus ? "points bonus" : "points";
+                    const isBonus = (i === pools.length - 1);
+                    const pText = isBonus ? "Бонус (за отличен)" : `${pointsConfig[i]} т.`;
+                    const pClass = isBonus ? "points bonus" : "points";
 
                     const taskHtml = `
                         <div class="task">
                             <div class="task-header">
-                                <span class="task-title">Задача ${index + 1}.</span>
-                                <span class="${pointsClass}">${pointsText}</span>
+                                <span class="task-title">Задача ${i + 1}.</span>
+                                <span class="${pClass}">${pText}</span>
                             </div>
-                            <div class="math-content">
-                                $$ ${randomTask.q} $$
-                            </div>
+                            <div class="math-content">$$ ${task.q} $$</div>
                         </div>
                     `;
 
-                    if (index < 4) {
-                        htmlContent += taskHtml;
-                    }
-                    if (index === 3) {
-                        htmlContent += '</div><div class="long-tasks-list">';
-                    }
-                    if (index >= 4) {
-                        htmlContent += taskHtml;
-                    }
+                    if (i < 4) htmlContent += taskHtml;
+                    if (i === 3) htmlContent += '</div><div class="long-tasks-list">';
+                    if (i >= 4) htmlContent += taskHtml;
 
-                    answersHtml += `<li>$ ${randomTask.a} $</li>`;
+                    answersHtml += `<li>$ ${task.a} $</li>`;
                 }
 
-                htmlContent += '</div>';
+                htmlContent += '</div><div class="page-break"></div>';
                 answersHtml += '</ol></div>';
-
-                htmlContent += '<div class="page-break"></div>';
             }
 
-            answersHtml += '</div>';
-            container.innerHTML = htmlContent + answersHtml;
-
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(container, {
-                    delimiters: [
-                        {left: "$$", right: "$$", display: true},
-                        {left: "$", right: "$", display: false}
-                    ],
-                    throwOnError: false
-                });
-            }
+            container.innerHTML = htmlContent + answersHtml + '</div>';
+            renderMathInElement(container, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
         }
 
         function downloadPDF() {
             const element = document.getElementById('paper-content');
-            
-            const opt = {
-                margin:       10, 
-                filename:     'Kontrolna_Neravenstva.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2 }, 
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak:    { mode: ['css', 'legacy'], avoid: '.task', before: '.page-break' } 
-            };
-            
             const btn = document.getElementById('btn-pdf');
-            const oldText = btn.innerHTML;
-            btn.innerHTML = '⏳ Подготвяне на PDF...';
+            btn.innerHTML = '⏳ Подготвяне...';
             btn.disabled = true;
 
+            const opt = {
+                margin: 10, filename: 'Kontrolna_Neravenstva.pdf',
+                html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'], avoid: '.task', before: '.page-break' }
+            };
+
             html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = oldText;
+                btn.innerHTML = '📄 Изтегли като PDF';
                 btn.disabled = false;
-            }).catch(err => {
-                console.error("Грешка при създаване на PDF:", err);
-                btn.innerHTML = '❌ Възникна грешка';
-                setTimeout(() => { btn.innerHTML = oldText; btn.disabled = false; }, 2000);
             });
         }
 
-        window.onload = function() {
-            setTimeout(generateTest, 300);
-        };
+        window.onload = () => setTimeout(generateTest, 300);
     </script>
 </body>
 </html>
