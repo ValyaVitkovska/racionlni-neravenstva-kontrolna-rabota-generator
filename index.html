@@ -86,7 +86,7 @@
         .points { color: var(--accent-color); font-size: 0.85em; }
         .points.bonus { color: var(--success-color); }
         
-        .math-content { text-align: center; font-size: 1.25em; margin: 8px 0; }
+        .math-content { text-align: center; font-size: 1.3em; margin: 12px 0; }
 
         .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
         .variant-answers { background: #f8f9fa; border: 1px solid #ddd; padding: 15px; border-radius: 6px; }
@@ -170,7 +170,7 @@
                 { q: "\\left| \\begin{array}{l} 10 - 2x \\ge 4 \\\\ 5x + 1 > 11 \\end{array} \\right.", ans: "x \\in (2; 3]" },
                 { q: "\\left| \\begin{array}{l} 1 - x < 5 \\\\ 2x + 3 \\ge 7 \\end{array} \\right.", ans: "x \\in [2; \\infty)" },
                 { q: "\\left| \\begin{array}{l} 4x + 2 > 14 \\\\ 6 - x \\ge 1 \\end{array} \\right.", ans: "x \\in (3; 5]" },
-                { q: "\\left| \\begin{array}{l} 2x/3 + 1 < 3 \\\\ 3x - 4 > 2 \\end{array} \\right.", ans: "x \\in (2; 3)" }
+                { q: "\\left| \\begin{array}{l} \\frac{2x}{3} + 1 < 3 \\\\ 3x - 4 > 2 \\end{array} \\right.", ans: "x \\in (2; 3)" }
             ],
             quad: [
                 { a: 1, b: -7, c: 10, op: "\\le 0", ans: "x \\in [2; 5]" },
@@ -223,22 +223,22 @@
                 { q: "\\frac{x + 10}{2x - 1} \\le 1", ans: "x \\in (-\\infty; 0.5) \\cup [11; \\infty)" }
             ],
             fracFactor: [
-                { q: "\\frac{x^2 - 5x}{x + 2} \\le 0", ans: "x \\in (-\\infty; -2) \\cup [0; 5]" },
-                { q: "\\frac{x^2 - 16}{x - 1} \\ge 0", ans: "x \\in [-4; 1) \\cup [4; \\infty)" },
-                { q: "\\frac{4x^2 - 1}{x - 3} \\le 0", ans: "x \\in (-\\infty; -0.5] \\cup [0.5; 3)" },
-                { q: "\\frac{x^2 + 3x}{x - 4} > 0", ans: "x \\in (-3; 0) \\cup (4; \\infty)" },
-                { q: "\\frac{9 - x^2}{x + 5} \\le 0", ans: "x \\in (-5; -3] \\cup [3; \\infty)" },
-                { q: "\\frac{x^2 - 4x}{x + 1} \\ge 0", ans: "x \\in (-1; 0] \\cup [4; \\infty)" },
-                { q: "\\frac{x^2 - 25}{x - 3} < 0", ans: "x \\in (-\\infty; -5) \\cup (3; 5)" },
-                { q: "\\frac{x^2 - 1}{2 - x} \\ge 0", ans: "x \\in (-\\infty; -1] \\cup [1; 2)" },
-                { q: "\\frac{x^2 + x}{x + 4} \\le 0", ans: "x \\in (-\\infty; -4) \\cup [-1; 0]" },
-                { q: "\\frac{36 - x^2}{x + 2} \\le 0", ans: "x \\in (-2; 6] \\cup (-\\infty; -6]" }
+                { q: "\\frac{x^2 - 4}{x^2 - 5x + 6} \\le 0", ans: "x \\in [-2; 2) \\cup (2; 3)" },
+                { q: "\\frac{x^2 - 9}{x^2 - x - 6} \\ge 0", ans: "x \\in (-\\infty; -3] \\cup (-2; 3) \\cup (3; \\infty)" },
+                { q: "\\frac{x^2 + 2x}{x^2 + 5x + 6} \\le 0", ans: "x \\in (-3; -2) \\cup (-2; 0]" },
+                { q: "\\frac{x^2 - 1}{x^2 + 3x + 2} \\ge 0", ans: "x \\in (-\\infty; -2) \\cup (-1; 1] \\cup \\{-1 \\text{ изкл.}\\}" },
+                { q: "\\frac{x^2 - 4x + 4}{x^2 - x - 2} \\le 0", ans: "x \\in (-1; 2)" },
+                { q: "\\frac{x^2 + 6x + 9}{x^2 + 2x - 3} \\ge 0", ans: "x \\in (-\\infty; -3) \\cup (-3; -3) \\cup (1; \\infty) \\cup \\{-3\\}" },
+                { q: "\\frac{2x^2 - 4x}{x^2 - x - 2} \\ge 0", ans: "x \\in (-\\infty; -1) \\cup [0; 2) \\cup (2; \\infty)" },
+                { q: "\\frac{x^2 - 16}{x^2 - 2x - 8} \\le 0", ans: "x \\in [-4; -2) \\cup (4; 4) \\text{ изкл.}" },
+                { q: "\\frac{3x^2 + 3x}{x^2 + 4x + 3} \\ge 0", ans: "x \\in (-\\infty; -3) \\cup [0; \\infty) \\setminus \\{-1\\}" },
+                { q: "\\frac{x^2 - 25}{x^2 - 4x - 5} \\le 0", ans: "x \\in [-5; -1)" }
             ],
             fracPowers: [
                 { q: "\\frac{(x^2 - 4)(x + 1)^3}{x^2 - 2x + 1} \\le 0", ans: "x \\in (-\\infty; -2] \\cup [-1; 1) \\cup (1; 2]" },
                 { q: "\\frac{(x^2 - 6x + 9)(x + 2)}{x - 1} \\le 0", ans: "x \\in [-2; 1) \\cup \\{3\\}" },
                 { q: "\\frac{(x^2 - 16)(x + 2)^3}{x^2 - 2x + 1} \\le 0", ans: "x \\in (-\\infty; -4] \\cup [-2; 1) \\cup (1; 4]" },
-                { q: "\\frac{x - 5}{(x + 3)^2(x - 1)} \\le 0", ans: "x \\in (1; 5]" },
+                { q: "\\frac{x - 5}{(x + 3)^2(x - 1)} \\le 0", ans: "x \\in (1; 5] \\cup \\{-3\\}" },
                 { q: "\\frac{(x+2)^2(x-3)}{x+4} \\le 0", ans: "x \\in (-4; 3]" },
                 { q: "\\frac{(x^2-1)(x+5)^4}{x-2} \\ge 0", ans: "x \\in [-1; 1] \\cup (2; \\infty) \\cup \\{-5\\}" },
                 { q: "\\frac{x^2-9}{(x-3)(x+2)} \\ge 0", ans: "x \\in (-\\infty; -3] \\cup (-2; 3) \\cup (3; \\infty)" },
@@ -247,16 +247,16 @@
                 { q: "\\frac{x^2-4x+4}{(x+1)(x-2)} \\le 0", ans: "x \\in (-\\infty; -1)" }
             ],
             fracSigns: [
-                { q: "\\frac{-3x^2 + 10x - 8}{(x + 3)^4(x^2 - x + 3)} \\ge 0", ans: "x \\in [4/3; 2]" },
                 { q: "\\frac{-x^2 + 6x - 5}{(x - 2)^4(x^2 - 3x + 7)} \\ge 0", ans: "x \\in [1; 2) \\cup (2; 5]" },
-                { q: "\\frac{-4x^2 + 12x - 5}{(x - 1)^4(x^2 + x + 2)} \\ge 0", ans: "x \\in [0.5; 1) \\cup (1; 2.5]" },
-                { q: "\\frac{-x^2 + 2x - 5}{(x^2 - 9)(x + 1)^2} \\ge 0", ans: "x \\in (-3; 3) \\setminus \\{-1\\}" },
-                { q: "\\frac{x^2 + x + 1}{(x - 2)^2(x + 4)} > 0", ans: "x \\in (-4; 2) \\cup (2; \\infty)" },
-                { q: "\\frac{-2x^2 + 3x - 5}{(x - 4)^2} < 0", ans: "x \\neq 4" },
-                { q: "\\frac{(x+5)^2}{-x^2 + 4x - 5} \\ge 0", ans: "x = -5" },
-                { q: "\\frac{x^2 - 6x + 10}{(x-1)^3} \\ge 0", ans: "x \\in (1; \\infty)" },
-                { q: "\\frac{-3x^2 + 2x - 1}{(x+2)^2(x-5)} > 0", ans: "x \\in (-\\infty; 5) \\setminus \\{-2\\}" },
-                { q: "\\frac{x^2 + 4}{x^2 - 4x + 4} > 0", ans: "x \\neq 2" }
+                { q: "\\frac{-3x^2 + 10x - 8}{(x + 3)^4(x^2 - x + 3)} \\ge 0", ans: "x \\in [4/3; 2]" },
+                { q: "\\frac{x^2 - 4x + 3}{(x - 2)^2(x^2 + x + 1)} \\le 0", ans: "x \\in [1; 2) \\cup (2; 3]" },
+                { q: "\\frac{-2x^2 + 7x - 3}{(x + 1)^2(x^2 + x + 1)} > 0", ans: "x \\in (0.5; 3)" },
+                { q: "\\frac{x^2 - 6x + 8}{(x - 5)^6(x^2 + 2x + 5)} \\ge 0", ans: "x \\in (-\\infty; 2] \\cup [4; 5) \\cup (5; \\infty)" },
+                { q: "\\frac{-x^2 + 4x - 3}{(x + 2)^2(x^2 - 2x + 5)} \\ge 0", ans: "x \\in [1; 3]" },
+                { q: "\\frac{3x^2 - 11x + 6}{(x - 1)^4(x^2 + 4)} < 0", ans: "x \\in (2/3; 1) \\cup (1; 3)" },
+                { q: "\\frac{-2x^2 + 9x - 4}{(x + 3)^2(x^2 + 2x + 2)} \\ge 0", ans: "x \\in [0.5; 4]" },
+                { q: "\\frac{x^2 - 5x + 6}{(x + 1)^4(x^2 - x + 1)} \\le 0", ans: "x \\in [2; 3]" },
+                { q: "\\frac{-4x^2 + 13x - 3}{(x - 2)^2(x^2 + 3)} \\ge 0", ans: "x \\in [0.25; 2) \\cup (2; 3]" }
             ],
             fracCommon: [
                 { q: "\\frac{3x^2 - 10x - 1}{x^2 - 3x + 2} < -2", ans: "x \\in (0.2; 1) \\cup (2; 3)" },
@@ -292,18 +292,13 @@
             let decks = {};
             let cursors = {};
             
-            // Инициализираме всички необходими ключове, включително специалния 'product'
-            cursors['product'] = 0;
-            keysOrder.forEach(k => {
-                if (k !== 'product') {
-                    decks[k] = shuffle(pools[k]);
-                }
+            // Инициализация на всички броячи и тестета
+            Object.keys(pools).forEach(k => {
+                decks[k] = shuffle(pools[k]);
                 cursors[k] = 0;
             });
-            
-            // Бонусът също се нуждае от инициализация
-            cursors.bonus = 0;
-            decks.bonus = shuffle(pools.bonus);
+            // Ръчно добавяне на 'product' в броячите, тъй като се обработва динамично
+            cursors['product'] = 0;
 
             let htmlContent = '', ansHtml = `<div class="page-break"></div><div class="header"><h1>Ключ с отговори</h1></div><div class="answers-grid">`;
 
@@ -326,7 +321,7 @@
                         taskData = decks[key][cursors[key]++];
                     }
 
-                    if (!taskData) return; // Предпазна мярка
+                    if (!taskData) return;
 
                     let qDisplay = taskData.q;
                     if(key === 'quad') {
